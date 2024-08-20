@@ -1,0 +1,25 @@
+.include "8clocks.jsim"
+.include "nominal.jsim"
+.include "stdcell.jsim"
+
+.subckt halfAdder a b s c
+
+Xhahax a b s xor2
+Xhahaa a b c and2
+
+.ends
+
+
+Xtest clk1 clk2 sone cone halfAdder
+Xhehe clk3 clk4 stwo ctwo halfAdder
+
+
+.tran 80ns
+.plot clk1
+.plot clk2
+.plot sone
+.plot cone
+.plot clk3
+.plot clk4
+.plot stwo
+.plot ctwo

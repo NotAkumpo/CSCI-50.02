@@ -44,6 +44,7 @@ Xinv clk1 out inverter
 .tran 10ns
 .plot clk1
 .plot out
+*.plot clk1 out
 
 
 *******************************************************************************

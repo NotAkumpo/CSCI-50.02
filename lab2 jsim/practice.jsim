@@ -1,0 +1,34 @@
+.include "8clocks.jsim"
+.include "nominal.jsim"
+.include "stdcell.jsim"
+
+.subckt practice1 a b c d e f g
+
+Xa1 a b e and2
+Xa2 c d f and2
+Xa3 e f g or2
+
+.ends
+
+Xanswer1 clk1 clk2 clk3 clk4 mid1 mid2 out1 practice1
+
+.tran 80ns
+.plot clk1
+.plot clk2
+.plot clk3
+.plot clk4
+.plot out1
+
+
+.subckt practice2 a b c d f
+
+Xb1 b e inverter
+Xb2 c d g and2
+Xb3 g h inverter
+Xb4 a e h f or3
+
+.ends
+
+Xanswer2 clk1 clk2 clk3 clk4 out2 practice2
+
+.plot out2
