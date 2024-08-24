@@ -10,7 +10,18 @@ Xa3 e f g or2
 
 .ends
 
-Xanswer1 clk1 clk2 clk3 clk4 mid1 mid2 out1 practice1
+.subckt practice11 a b c d ff 
+
+Xa1 a b x nand2
+Xa2 c d y nand2
+Xa3 x xx inverter
+Xa4 y yy inverter
+Xa5 xx yy f nor2
+Xa6 f ff inverter
+
+.ends
+
+Xanswer1 clk1 clk2 clk3 clk4 out1 practice11
 
 .tran 80ns
 .plot clk1
@@ -22,10 +33,10 @@ Xanswer1 clk1 clk2 clk3 clk4 mid1 mid2 out1 practice1
 
 .subckt practice2 a b c d f
 
-Xb1 b e inverter
-Xb2 c d g and2
-Xb3 g h inverter
-Xb4 a e h f or3
+Xb1 b x inverter
+Xb2 c d y nand2
+Xb3 a x y z nor3
+Xb4 z f inverter
 
 .ends
 
