@@ -5,19 +5,31 @@
 
 .subckt fx a b c d e f g out
 
-*AND gate can be made by using a NAND gate for the inputs then inverting its output
+*THIS IS OUR ACTUAL IMPLEMENTATION
+*The function ABC + DE + FG is actually equal to !(!(ABC)!(DE)!(EF))
+*Implementing this to a circuit only uses 4 NAND gates in total
+
 Xa1 a b c abcn nand3
-Xa2 abcn abc inverter
+Xa2 d e den nand2
+Xa3 f g fgn nand2
 
-Xa3 d e den nand2
-Xa4 den de inverter
+Xa4 abcn den fgn out nand3
 
-Xa5 f g fgn nand2
-Xa6 fgn fg inverter
+
+*THIS IS JUST OUR INITIAL IDEA WHICH TAKES MORE GATES THAN OUR ACTUAL IMPLEMENTATION
+*AND gate can be made by using a NAND gate for the inputs then inverting its output
+*Xa1 a b c abcn nand3
+*Xa2 abcn abc inverter
+
+*Xa3 d e den nand2
+*Xa4 den de inverter
+
+*Xa5 f g fgn nand2
+*Xa6 fgn fg inverter
 
 *OR gate can be made by using a NOR gate for the inputs then inverting its output
-Xa7 abc de fg outn nor3
-Xa8 outn out inverter
+*Xa7 abc de fg outn nor3
+*Xa8 outn out inverter
 
 .ends
 
@@ -32,15 +44,10 @@ Xb2 xyx z s xor2
 *The carry output can be acquired by doing AND on the XOR of the inputs and the
 *carry input then getting the OR of the output of this operation to the AND of
 *the inputs. The same approach in the first sub-circuit is done for the ANDs
-*and ORs where ANDs are NANDs followed by NOTs and ORs are NORs followed by NOTs
+*and ORs where 3 NAND gates are used.
 Xb3 xyx z xyxzn nand2
-Xb4 xyxzn xyxz inverter
-
-Xb5 x y xyn nand2
-Xb6 xyn xy inverter
-
-Xb7 xyxz xy cn nor2
-Xb8 cn c inverter
+Xb4 x y xyn nand2
+Xb5 xyxzn xyn c nand2
 
 .ends
 
