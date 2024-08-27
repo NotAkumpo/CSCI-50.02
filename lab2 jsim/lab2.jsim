@@ -1,56 +1,5 @@
 .include "8clocks.jsim"
-.include "nominal.jsim"
-.include "stdcell.jsim"
-*.include "labsubckts.jsim"
-
-.subckt fx a b c d e f g out
-
-*THIS IS OUR ACTUAL IMPLEMENTATION
-*The function ABC + DE + FG is actually equal to !(!(ABC)!(DE)!(EF))
-*Implementing this to a circuit only uses 4 NAND gates in total
-
-Xa1 a b c abcn nand3
-Xa2 d e den nand2
-Xa3 f g fgn nand2
-
-Xa4 abcn den fgn out nand3
-
-
-*THIS IS JUST OUR INITIAL IDEA WHICH TAKES MORE GATES THAN OUR ACTUAL IMPLEMENTATION
-*AND gate can be made by using a NAND gate for the inputs then inverting its output
-*Xa1 a b c abcn nand3
-*Xa2 abcn abc inverter
-
-*Xa3 d e den nand2
-*Xa4 den de inverter
-
-*Xa5 f g fgn nand2
-*Xa6 fgn fg inverter
-
-*OR gate can be made by using a NOR gate for the inputs then inverting its output
-*Xa7 abc de fg outn nor3
-*Xa8 outn out inverter
-
-.ends
-
-
-.subckt fa x y z s c
-
-*The sum of a full adder can be acquired by doing XOR on the 2 inputs then doing XOR
-*again on the resulting output of this operation and the carry input 
-Xb1 x y xyx xor2
-Xb2 xyx z s xor2
-
-*The carry output can be acquired by doing AND on the XOR of the inputs and the
-*carry input then getting the OR of the output of this operation to the AND of
-*the inputs. The same approach in the first sub-circuit is done for the ANDs
-*and ORs where 3 NAND gates are used.
-Xb3 xyx z xyxzn nand2
-Xb4 x y xyn nand2
-Xb5 xyxzn xyn c nand2
-
-.ends
-
+.include "labsubckts.jsim"
 
 Xfx clk1 clk2 clk3 clk4 clk5 clk6 clk7 outfx fx
 Xfa clk5 clk6 clk7 sfa cfa fa
