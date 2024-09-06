@@ -34,9 +34,8 @@ Xb5 xyxzn xyn c nand2
 .ends
 
 
-.subckt add32 a[31:0] b[31:0] c_in0 sum[31:0] c_out[31:30]
+.subckt add32 a[31:0] b[31:0] c_in0 sum[31:0] c_out[31:30] 
 
-Xc1 a31 b31 c_in0 sum31  
-
+Xc a[0:31] b[0:31] c_in0 c_out[0:30] sum[0:31] c_out[0:31] fa
 
 .ends
