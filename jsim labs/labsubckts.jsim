@@ -1,7 +1,7 @@
 .include "nominal.jsim"
 .include "stdcell.jsim"
 
-
+***LAB 2 STARTS HERE***
 .subckt fx a b c d e f g out
 
 *The function ABC + DE + FG is actually equal to !(!(ABC)!(DE)!(EF))
@@ -33,9 +33,24 @@ Xb5 xyxzn xyn c nand2
 
 .ends
 
+***LAB 2 ENDS HERE***
+
+
+
+***LAB 3 STARTS HERE***
 
 .subckt add32 a[31:0] b[31:0] c_in0 sum[31:0] c_out[31:30] 
 
-Xc a[0:31] b[0:31] c_in0 c_out[0:30] sum[0:31] c_out[0:31] fa
+*This makes 32 instances of a full adder which was done in lab 2, the carry input
+*of the very first full adder is set to c_in0 which for the purpose of this lab 3
+*will be set to 0 because this is the least significant bit so it will not have a
+*carry. For the rest of the full adders, the previous carry output of the previous
+*full adder becomes the carry input of the current full adder. This was all done
+*in one line by making the very first carry input as c_in0 and the next 31 as the 
+*carry outputs of the next 31 full adders. With this, a 32 bit adder is 
+*successfully created with 32 full adders connected to each other.
+Xc1 a[31:0] b[31:0] c_out[30:0] c_in0 sum[31:0] c_out[31:0] fa
 
 .ends
+
+***LAB 3 ENDS HERE
