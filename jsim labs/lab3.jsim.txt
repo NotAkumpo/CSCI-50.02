@@ -1,3 +1,7 @@
+*Choachuy, Alana
+*Evangelista, Abdiel
+*Gerance, Clyde
+
 .include "8clocks.jsim"
 .include "labsubckts.jsim"
 
@@ -10,6 +14,13 @@ Wa a[31:0] nrz(0, 5, 20ns, 0ns, 0.001ns, 0.001ns)
 Wb b[31:0] nrz(0, 5, 20ns, 0ns, 0.001ns, 0.001ns)
 + 0x00000000 0x00000000 0x55555555 0x55555555 0xFFFFFFFF
 + 0x00000000 0xAAAAAAAA 0xAAAAAAAA 0xFFFFFFFF 0x00000001
+
+*There is a longer transition delay for the last two test cases because
+*of the consecutive Fs and 0s. F in binary is 1111 and 0 is 0000. Adding
+*these together will produce a sum of 1111. If a carry from the bit before
+*this was produced, this input 1 of the will ripple through all the 1111 bits,
+*causing a significant delay (and even if there wasn't, the full adder still has
+*to be on standby due to this possibility).
 
 .tran 200ns
 .plot a[31:0]
