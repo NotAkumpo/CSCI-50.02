@@ -71,11 +71,11 @@ Xc1 a[31:0] b[31:0] c_out[30:0] c_in0 sum[31:0] c_out[31:0] fa
 *Xf1 f[31:0] a[31:0] 0 sum[31:0] c31 c30 add32
 
 *Version 2
-Xd1 reset#32 sum[31:0] c#32 z[31:0] mux2
+Xd1 reset#32 sum[31:0] ground#32 z[31:0] mux2
 Xe1 z[31:0] clk#32 f[31:0] dreg
-Xf1 f[31:0] a[31:0] 0 sum[31:0] c31 c30 add32
+Xf1 a[31:0] f[31:0] 0 sum[31:0] c31 c30 add32
 
-.connect 0 c
+.connect 0 ground
 
 .ends
 
