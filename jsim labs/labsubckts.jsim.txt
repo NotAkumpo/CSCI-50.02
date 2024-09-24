@@ -65,12 +65,6 @@ Xc1 a[31:0] b[31:0] c_out[30:0] c_in0 sum[31:0] c_out[31:0] fa
 
 .subckt counter32 reset a[31:0] f[31:0] clk
 
-*Version 1
-*Xd1 reset#32 sum[31:0] 0#32 z[31:0] mux2
-*Xe1 z[31:0] clk#32 f[31:0] dreg
-*Xf1 f[31:0] a[31:0] 0 sum[31:0] c31 c30 add32
-
-*Version 2
 Xd1 reset#32 sum[31:0] ground#32 z[31:0] mux2
 Xe1 z[31:0] clk#32 f[31:0] dreg
 Xf1 a[31:0] f[31:0] 0 sum[31:0] c31 c30 add32
