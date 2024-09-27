@@ -97,3 +97,12 @@ Xl1 na[7:0] noa[1:0] nor4
 Xm1 noa[1:0] z nor2
 
 .ends
+
+
+.subckt cmp32 n v z op[2:1] fcmp[31:0]
+
+Xn1 z n zn and2
+Xo1 op1 op2 0 z n zn fcmp0 mux4
+.connect fcmp[31:1] 0
+
+.ends
