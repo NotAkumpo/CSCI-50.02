@@ -87,15 +87,13 @@ Xf1 a[31:0] f[31:0] 0 sum[31:0] c31 c30 add32
 
 .subckt as32 a[31:0] b[31:0] op0 fas[31:0] n v z
 
-*Xg1 b[31:0] ib[31:0] inverter
-*Xh1 op0#32 b[31:0] ib[31:0] wb[31:0] mux2
 Xg1 op0#32 b[31:0] wb[31:0] xor2
 Xi1 a[31:0] wb[31:0] op0 fas[31:0] c31 c30 add32
 .connect fas31 n
 Xj1 c31 c30 v xor2
-Xk1 fas[31:0] naa[7:0] nor4
-Xl1 na[7:0] noa[1:0] nand4
-Xm1 noa[1:0] z nor2
+Xk1 fas[31:0:4] fas[30:0:4] fas[29:0:4] fas[28:0:4] noa[7:0] nor4
+Xl1 noa[7:4] noa[3:0] naa[1:0] nand4
+Xm1 naa[1:0] z nor2
 
 .ends
 
@@ -103,10 +101,9 @@ Xm1 noa[1:0] z nor2
 .subckt cmp32 n v z op[2:1] fcmp[31:0]
 
 Xn1 n v xnv xor2
-Xn2 z xnv zn and2
-Xn3 zn znn inverter
-
-*Xo1 op1 op2 znn z xnv zn fcmp0 mux4
+Xn2 op1 z wz and2
+Xn3 op2 xnv wn and2
+Xn4 wz wn fcmp0 or2
 
 .connect fcmp[31:1] 0
 
