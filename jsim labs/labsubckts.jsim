@@ -101,9 +101,9 @@ Xm1 naa[1:0] z nor2
 .subckt cmp32 n v z op[2:1] fcmp[31:0]
 
 Xn1 n v xnv xor2
-Xn2 op1 z wz and2
-Xn3 op2 xnv wn and2
-Xn4 wz wn fcmp0 or2
+Xn2 op1 z wz nand2
+Xn3 op2 xnv wn nand2
+Xn4 wz wn fcmp0 nand2
 
 .connect fcmp[31:1] 0
 
