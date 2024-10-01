@@ -5,57 +5,51 @@
 .include "8clocks.jsim"
 .include "labsubckts.jsim"
 
-Xsd1 a[31:0] b[31:0] sign fas[31:0] n v z as32
+Xsd1 a[31:0] b[31:0] op0 fas[31:0] n v z as32
 *Critical Path
 *b31 => z 
 *Nodes: xor2 add32 nor4 nand4 nor2
 
-Wa a[31:0] nrz(0, 5, 20ns, 0ns, 0.001ns, 0.001ns)
+Wa a[31:0] nrz(0, 5, 15ns, 0ns, 0.001ns, 0.001ns)
 + 0x00000000 0x55555555 0x00000000 0x55555555 0xFFFFFFFF
 + 0x00000000 0x00000000 0xAAAAAAAA 0x00000000 0xAAAAAAAA
-+ 0x00000001 0xFFFFFFFF 0x80000000 0xFFFFFFFF
++ 0x00000001 0xFFFFFFFF 0x80000000 0xFFFFFFFF 0x00000002
++ 0x00000002 0x00000002 0x80000000 0x80000000 0x80000000
++ 0x00000003 0x00000003 0x00000003 0x7FFFFFFF 0x7FFFFFFF
++ 0x7FFFFFFF 0x00000003 0x00000003 0x00000003
 
-Wb b[31:0] nrz(0, 5, 20ns, 0ns, 0.001ns, 0.001ns)
+Wb b[31:0] nrz(0, 5, 15ns, 0ns, 0.001ns, 0.001ns)
 + 0x00000000 0x00000000 0x55555555 0x55555555 0xFFFFFFFF
 + 0x00000000 0xFFFFFFFF 0x00000000 0xAAAAAAAA 0xAAAAAAAA
-+ 0xFFFFFFFF 0x00000001 0x80000000 0xFFFFFFFF
++ 0xFFFFFFFF 0x00000001 0x80000000 0xFFFFFFFF 0xFFFFFFFD
++ 0xFFFFFFFD 0xFFFFFFFD 0x00000002 0x00000002 0x00000002
++ 0x00000005 0x00000005 0x00000005 0xFFFFFFFE 0xFFFFFFFE
++ 0xFFFFFFFE 0x00000003 0x00000003 0x00000003
 
-Ws sign nrz(0, 5, 20ns, 0ns, 0.001ns, 0.001ns)
-+ 0 0 0 0 0 1 1 0 0 0 0 0 0 1
 
-Xsd2 c[31:0] d[31:0] minus fasb[31:0] nb vb zb as32
+Ws op0 nrz(0, 5, 15ns, 0ns, 0.001ns, 0.001ns)
++ 0 0 0 0 0 1 1 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
++ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 
-Wm minus nrz(0, 5, 60ns, 0ns, 0.001ns, 0.001ns)
-+ 1 1 1 1 1
+Xcmp n v z op[2:1] fcmp[31:0] cmp32
 
-Wc c[31:0] nrz(0, 5, 60ns, 0ns, 0.001ns, 0.001ns)
-+ 0x00000002 0x80000000 0x00000003 0x7FFFFFFF 0x00000003
+We op1 nrz(0, 5, 15ns, 0ns, 0.001ns, 0.001ns)
++ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 
 
-Wd d[31:0] nrz(0, 5, 60ns, 0ns, 0.001ns, 0.001ns)
-+ 0xFFFFFFFD 0x00000002 0x00000005 0xFFFFFFFE 0x00000003
+Wf op2 nrz(0, 5, 15ns, 0ns, 0.001ns, 0.001ns)
++ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 
 
-Xcmp nb vb zb op[2:1] fcmp[31:0] cmp32
 
-We op1 nrz(0, 5, 20ns, 0ns, 0.001ns, 0.001ns)
-+ 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1
 
-Wf op2 nrz(0, 5, 20ns, 0ns, 0.001ns, 0.001ns)
-+ 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1
 
-.tran 300ns
+.tran 435ns
 .plot a[31:0]
-.plot sign
 .plot b[31:0]
 .plot fas[31:0]
+.plot op[2:0]
 .plot n
 .plot v 
 .plot z
-.plot c[31:0]
-.plot d[31:0]
-.plot fasb[31:0]
-.plot nb
-.plot vb 
-.plot zb
-.plot op1
-.plot op2
-.plot fcmp0
+*.plot op1
+*.plot op2
+.plot fcmp[31:0]

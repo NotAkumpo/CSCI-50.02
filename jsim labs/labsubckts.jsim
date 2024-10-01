@@ -81,8 +81,6 @@ Xf1 a[31:0] f[31:0] 0 sum[31:0] c31 c30 add32
 
 .subckt as32 a[31:0] b[31:0] op0 fas[31:0] n v z
 
-*Xg1 b[31:0] ib[31:0] inverter
-*Xh1 op0#32 b[31:0] ib[31:0] wb[31:0] mux2
 Xg1 op0#32 b[31:0] wb[31:0] xor2
 Xi1 a[31:0] wb[31:0] op0 fas[31:0] c31 c30 add32
 .connect fas31 n
