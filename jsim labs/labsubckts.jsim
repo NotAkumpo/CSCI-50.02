@@ -81,6 +81,8 @@ Xf1 a[31:0] f[31:0] 0 sum[31:0] c31 c30 add32
 
 .subckt as32 a[31:0] b[31:0] op0 fas[31:0] n v z
 
+*Xg1 b[31:0] ib[31:0] inverter
+*Xh1 op0#32 b[31:0] ib[31:0] wb[31:0] mux2
 Xg1 op0#32 b[31:0] wb[31:0] xor2
 Xi1 a[31:0] wb[31:0] op0 fas[31:0] c31 c30 add32
 .connect fas31 n
@@ -102,3 +104,42 @@ Xn4 wz wn fcmp0 nand2
 .connect fcmp[31:1] 0
 
 .ends
+
+***LAB 5 ENDS HERE***
+
+
+
+***LAB 6 STARTS HERE***
+
+.subckt bool32 a[31:0] b[31:0] op[3:0] fbool[31:0]
+
+Xo1 a[31:0] b[31:0] op0#32 op1#32 op2#32 op3#32 fbool[31:0] mux4
+
+.ends
+
+
+.subckt shift32 a[31:0] b[4:0] op[1:0] fshift[31:0]
+
+Xp1 op0#32 a[0:31] a[31:0] wa[31:0] mux2
+Xw1 a31 op1 sb and2
+Xq1 b4#32 wa[31:0] sb#16 wa[31:16] wat[31:0] mux2
+Xr1 b3#32 wat[31:0] sb#8 wat[31:8] was[31:0] mux2
+Xs1 b2#32 was[31:0] sb#4 was[31:4] wae[31:0] mux2
+xt1 b1#32 wae[31:0] sb#2 wae[31:2] waf[31:0] mux2
+xu1 b0#32 waf[31:0] sb waf[31:1] wao[31:0] mux2
+xv1 op0#32 wao[0:31] wao[31:0] fshift[31:0] mux2
+
+.ends
+
+
+.subckt alu32 a[31:0] b[31:0] alufn[5:0] f[31:0]
+
+Xas32 a[31:0] b[31:0] alufn0 fas[31:0] n v z as32
+Xbool32 a[31:0] b[31:0] alufn[3:0] fbool[31:0] bool32
+Xshift32 a[31:0] b[4:0] alufn[1:0] fshift[31:0] shift32
+Xcmp32 n v z alufn[2:1] fcmp[31:0] cmp32
+Xop alufn5#32 alufn4#32 fas[31:0] fshift[31:0] fbool[31:0] fcmp[31:0] f[31:0] mux4 
+
+.ends
+
+***LAB 6 ENDS HERE***
