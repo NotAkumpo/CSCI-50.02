@@ -37,5 +37,5 @@ Xalu a[31:0] b[31:0] alufn[5:0] f[31:0] alu32
 .tran 780ns
 .plot a[31:0]
 .plot b[31:0]
-.plot alufn[5:0]
+.plot alufn[31:0]
 .plot f[31:0]

@@ -125,9 +125,9 @@ Xw1 a31 op1 sb and2
 Xq1 b4#32 wa[31:0] sb#16 wa[31:16] wat[31:0] mux2
 Xr1 b3#32 wat[31:0] sb#8 wat[31:8] was[31:0] mux2
 Xs1 b2#32 was[31:0] sb#4 was[31:4] wae[31:0] mux2
-xt1 b1#32 wae[31:0] sb#2 wae[31:2] waf[31:0] mux2
-xu1 b0#32 waf[31:0] sb waf[31:1] wao[31:0] mux2
-xv1 op0#32 wao[0:31] wao[31:0] fshift[31:0] mux2
+Xt1 b1#32 wae[31:0] sb#2 wae[31:2] waf[31:0] mux2
+Xu1 b0#32 waf[31:0] sb waf[31:1] wao[31:0] mux2
+Xv1 op0#32 wao[0:31] wao[31:0] fshift[31:0] mux2
 
 .ends
 
