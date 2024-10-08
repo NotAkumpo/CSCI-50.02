@@ -18,6 +18,20 @@ Wb b[31:0] nrz(0v,5.0v,20ns,0ns,.1ns,.1ns)
 Wf alufn[5:0] nrz(0v,5.0v,60ns,0ns,.1ns,.1ns)
 + 0 1 24 30 22 26 21 32 33 35 51 53 55
 
+*0 is a + b (0ns)
+*1 is a - b (60ns)
+*24 is a AND b (120ns)
+*30 is a OR b (180ns)
+*22 is a XOR b (240ns)
+*26 is a (300ns)
+*21 is NOT a (360ns)
+*32 is shift left (420ns)
+*33 is shift right (480ns)
+*35 is arithmetic shift right (540ns)
+*51 is a = b (600ns)
+*53 is a < b (660ns)
+*55 is a <= b (720ns)
+
 Xalu a[31:0] b[31:0] alufn[5:0] f[31:0] alu32
 
 .tran 780ns
