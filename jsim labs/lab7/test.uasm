@@ -1,0 +1,10 @@
+.include beta.uasm
+
+LD(r31,x,r1)
+LD(r31,y,r2)
+ADD(r1,r2,r3)
+ST(r3,z,r31)
+.=0x200
+x: LONG(123)
+y: LONG(456)
+z: LONG(0)
