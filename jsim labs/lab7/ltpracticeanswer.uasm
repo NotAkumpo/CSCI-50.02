@@ -1,0 +1,15 @@
+.include beta.uasm
+
+LD(x,r0)
+CMPLE(R31,R0,R2)
+BF(R2,elseBlock)
+MOVE(R0,R1)
+BR(done)
+elseBlock:
+SUB(R31,R0,R1)
+done:
+ST(R1,y)
+HALT()
+.=0x200
+x: LONG(-6)
+y: LONG(0)
