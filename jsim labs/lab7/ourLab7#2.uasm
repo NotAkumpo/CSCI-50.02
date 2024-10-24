@@ -1,0 +1,28 @@
+|Choachuy, Alana
+|Evangelista, Abdiel
+|Gerance, Clyde
+
+.include beta.uasm 
+        | r0 = Number of Elements, r1 = Iterator, r2 = 1st Half Pointer, r3 = 2nd Half Pointer, r4 = 1st Half Element, r5 = 2nd Half Element
+
+        LD(r31, DATA, r0)
+        DIVC(r0, 2, r1)     | Iterate only N/2 times since using double pointer
+        MULC(r0, 4, r3)
+
+LOOP:   ADDC(r2, 4, r2)
+        LD(r2, DATA, r4)
+        LD(r3, DATA, r5)
+        ST(r4, DATA, r3)    | Switch happens here
+        ST(r5, DATA, r2)
+        SUBC(r3, 4, r3)
+        SUBC(r1, 1, r1)
+        BT(r1, LOOP, r31)
+        HALT()
+
+
+DATA:   LONG(5)
+        LONG(3)
+        LONG(-5)
+        LONG(12)
+        LONG(-14)
+        LONG(1)

@@ -1,0 +1,25 @@
+|Choachuy, Alana
+|Evangelista, Abdiel
+|Gerance, Clyde
+
+.include beta.uasm 
+        | r0 = N/Iterator, r1 = Current Write, r2 = Current Fibonacci Element, r3 = Previous Fibonacci Element
+
+        LD(r31, DATA, r0)   
+        BF(r0, END, r31)    | If N is 0, do nothing
+        ADDC(r1, 4, r1)
+        ST(r31, DATA, r1)   | Write 0 as very first element
+        SUBC(r0, 1, r0)
+        BF(r0, END, r31)    | If N is 1, write only 0
+        ADDC(r2, 1, r2)
+
+LOOP:   ADDC(r1, 4, r1)
+        ST(r2, DATA, r1)    | Write current fibonacci element
+        ADD(r2, r3, r2)     | Next fibonacci element
+        LD(r1, DATA, r3)    | Load old current element to previous fibonacci element
+        SUBC(r0, 1, r0)
+        BT(r0, LOOP, r31)
+END:    HALT()
+
+
+DATA:   LONG(10)

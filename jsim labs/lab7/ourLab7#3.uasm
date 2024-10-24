@@ -1,0 +1,27 @@
+|Choachuy, Alana
+|Evangelista, Abdiel
+|Gerance, Clyde
+
+.include beta.uasm 
+        | r0 = Iterator, r1 = Key, r2 = Current Array Index, r3 = Current Array Element
+
+        LD(r31, DATA, r1)   | Load key into register
+        ADDC(r31, 4, r2)
+        LD(r2, DATA, r0)
+
+LOOP:   ADDC(r2, 4, r2)
+        LD(r2, DATA, r3)
+        XOR(r3, r1, r3)     | XOR happens here
+        ST(r3, DATA, r2)
+        SUBC(r0, 1, r0)
+        BT(r0, LOOP, r31)
+        HALT()
+
+
+DATA:   LONG(42)
+        LONG(5)
+        LONG(3)
+        LONG(-5)
+        LONG(12)
+        LONG(-14)
+        LONG(1)
