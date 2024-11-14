@@ -1,0 +1,147 @@
+*Choachuy, Alana
+*Evangelista, Abdiel
+*Gerance, Clyde
+
+.include "8clocks.jsim"
+.include "labsubckts.jsim"
+
+*Instruction Memory, Program Counter and Data Memory
+Xmemory  vdd  0    0   pccur[8:2]    inst[31:0]
++        vdd  0    0   mema[8:2]  memrd[31:0]
++        0    clk2  wr  mema[8:2]  memwd[31:0]
++ $memory width=32 nlocations=128 file="lab7.bin"
+
+*For memwd 
+Xmemwdjoin rd2_[31:0] memwd[31:0] join
+Xmemajoin f[8:2] mema[8:2] join
+
+*Register File
+Xregisters  vdd  0    0      ra1_[4:0]  rd1_[31:0]
++           vdd  0    0      ra2_[4:0]  rd2_[31:0]
++           0    clk2  werf_  wa[4:0]    wd[31:0]
++ $memory width=32 nlocations=32 contents=(
++   0 0 0 0 0 0 0 0
++   0 0 0 0 0 0 0 0
++   0 0 0 0 0 0 0 0
++   0 0 0 0 0 0 0 0
++ )
+
+*For ra1_
+Xrajoin ra[4:0] ra1_[4:0] join
+
+*For ra2_ (MUX)
+Xrfchoose1 ra2sel#5 rb[4:0] rc[4:0] ra2_[4:0] mux2
+
+*For wa
+Xwajoin rc[4:0] wa[4:0] join
+
+*For r31
+Xa1 wa[4:1] wand and4
+Xa2 wand wa0 wand2 nand2
+Xa3 wand2 werf werf_ and2
+
+*For branch target
+Xbt1 c15#17 c[14:0] 0#3 vdd 0#3 cshift[31:0] shift32
+Xbt2 0#23 pccur[8:0] 0#29 vdd 0#3 pcf[31:0] dc[1:0] add32
+Xbt3 pcf[31:0] cshift[31:0] 0 bt[31:0] dc[3:2] add32
+
+*For pcsel (mux)
+Xpcchoose1 pcsel1#32 pcsel0#32 pcf[31:0] jt[31:0] bt[31:0] 0#32 pcnext[31:0] mux4
+
+*pccur[31:0]
+
+*For z (NOR)
+Xzcheck1 rd1_[31:0:4] rd1_[30:0:4] rd1_[29:0:4] rd1_[28:0:4] zl1[7:0] nor4
+Xzcheck2 zl1[7:4] zl1[3:0] zl2[1:0] nand4
+Xzcheck3 zl2[1:0] z nor2
+
+*For JT
+Xjtjoin rd1_[31:0] jt[31:0] join
+
+Xcontrol  vdd  0  0  z opcode[5:0]  control[13:0]
++ $memory width=14 nlocations=128 contents=(
++   0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000
++   0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000
++   0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000
++   0b00011000000001 0b00110000000010 0b11000000000000 0b10000000000001 0b11000000000000 0b00000000000001 0b01000000000001 0b11000000000000
++   0b00000100000001 0b00000100000101 0b11000000000000 0b11000000000000 0b00000111001101 0b00000111010101 0b00000111011101 0b11000000000000
++   0b00000101100001 0b00000101111001 0b00000101011001 0b11000000000000 0b00000110000001 0b00000110000101 0b00000110001101 0b11000000000000
++   0b00010100000001 0b00010100000101 0b11000000000000 0b11000000000000 0b00010111001101 0b00010111010101 0b00010111011101 0b11000000000000
++   0b00010101100001 0b00010101111001 0b00010101011001 0b11000000000000 0b00010110000001 0b00010110000101 0b00010110001101 0b11000000000000
++
++   0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000
++   0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000
++   0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000 0b11000000000000
++   0b00011000000001 0b00110000000010 0b11000000000000 0b10000000000001 0b11000000000000 0b01000000000001 0b00000000000001 0b11000000000000
++   0b00000100000001 0b00000100000101 0b11000000000000 0b11000000000000 0b00000111001101 0b00000111010101 0b00000111011101 0b11000000000000
++   0b00000101100001 0b00000101111001 0b00000101011001 0b11000000000000 0b00000110000001 0b00000110000101 0b00000110001101 0b11000000000000
++   0b00010100000001 0b00010100000101 0b11000000000000 0b11000000000000 0b00010111001101 0b00010111010101 0b00010111011101 0b11000000000000
++   0b00010101100001 0b00010101111001 0b00010101011001 0b11000000000000 0b00010110000001 0b00010110000101 0b00010110001101 0b11000000000000
++ )
+
+
+*For bsel (MUX)
+Xrtchoose1 bsel#32 rd2_[31:0] c15#17 c[14:0] alub[31:0] mux2
+
+*For ALU A 
+Xalua rd1_[31:0] alua[31:0] join
+
+*ALU 
+Xalu alua[31:0] alub[31:0] alufn[5:0] f[31:0] alu32
+
+*WDSEL (MUX)
+Xwdselchoose1 wdsel1#32 wdsel0#32 pcf[31:0] memrd[31:0] f[31:0] 0#32 wd[31:0] mux4
+
+*Reset Logic
+Xreseta1 reset#34 pcupc[31:0] control1 control0 0#34 pccur[31:0] wr werf mux2 
+Xresetb1 pcnext[31:0] clk2#32 pcupc[31:0] dreg  
+
+Wreset reset nrz(0, 5, 50ns, 0ns, 0.001ns, 0.001ns)
++ 1 0
+
+.subckt join S T
+  .connect S T
+.ends
+
+Xjcontrola control[13:12] pcsel[1:0] join
+Xjcontrolb control11      ra2sel     join
+Xjcontrolc control10      bsel       join
+Xjcontrold control[9:8]   wdsel[1:0] join
+Xjcontrole control[7:2]   alufn[5:0] join
+*Xjcontrolf control1       wr         join
+*Xjcontrolg control0       werf       join
+
+Xjinsta inst[31:26] opcode[5:0] join
+Xjinstb inst[25:21] rc[4:0]     join
+Xjinstc inst[20:16] ra[4:0]     join
+Xjinstd inst[15:11] rb[4:0]     join
+Xjinste inst[15:0]  c[15:0]     join
+
+*Xjpc clk[8:2] pccur[8:2] join
+*.connect 0 pccur[1:0]
+
+.connect vdd clk
+
+Xjdisplaya ra2_b_wdsel[3:0] ra2sel bsel wdsel[1:0] join
+Xjdisplayb wr_werfs[2:0]    wr werf werf_          join
+
+.tran 1280ns
+.plot hd(pccur[8:0])
+.plot hd(pcnext[8:0])
+.plot betaop(opcode[5:0])
+.plot reset
+.plot clk2
+*.plot d(ra[4:0])
+*.plot d(rb[4:0])
+*.plot d(rc[4:0])
+*.plot sd(c[15:0])
+*.plot b(pcsel[1:0])
+*.plot b(ra2_b_wdsel[3:0])
+*.plot b(alufn[5:0])
+*.plot b(wr_werfs[2:0])
+*.plot sd(rd1_[31:0])
+*.plot sd(rd2_[31:0])
+*.plot sd(wd[31:0])
+*.plot d(mema[8:0])
+*.plot sd(memrd[31:0])
+*.plot sd(memwd[31:0])
