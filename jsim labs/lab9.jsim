@@ -46,7 +46,7 @@ Xbt2 0#23 pccur[8:0] 0#29 vdd 0#3 pcf[31:0] dc[1:0] add32
 Xbt3 pcf[31:0] cshift[31:0] 0 bt[31:0] dc[3:2] add32
 
 *For pcsel (mux)
-Xpcchoose1 pcsel1#32 pcsel0#32 pcf[31:0] jt[31:0] bt[31:0] 0#32 pcnext[31:0] mux4
+Xpcchoose1 pcsel1#32 pcsel0#32 pcf[31:0] jt[31:0] bt[31:0] pccur[31:0] pcnext[31:0] mux4
 
 *pccur[31:0]
 
@@ -94,10 +94,14 @@ Xwdselchoose1 wdsel1#32 wdsel0#32 pcf[31:0] memrd[31:0] f[31:0] 0#32 wd[31:0] mu
 
 *Reset Logic
 Xreseta1 reset#34 pcupc[31:0] control1 control0 0#34 pccur[31:0] wr werf mux2 
+
 Xresetb1 pcnext[31:0] clk2#32 pcupc[31:0] dreg  
 
 Wreset reset nrz(0, 5, 50ns, 0ns, 0.001ns, 0.001ns)
 + 1 0
+
+*Wreset2 reset2 nrz(0, 5, 50ns, 0ns, 0.001ns, 0.001ns)
+*+ 1 0
 
 .subckt join S T
   .connect S T
