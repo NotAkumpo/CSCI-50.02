@@ -1,0 +1,28 @@
+|Choachuy, Alana
+|Evangelista, Abdiel
+|Gerance, Clyde
+
+.include beta.uasm 
+        | r0 = Iterator, r1 = Array Index, r2 = Current Array Element, r3 = Boolean for Odd/Even, r4 = Total for Even
+
+        LD(r31, DATA, r0)
+
+LOOP:   ADDC(r1, 4, r1)
+        LD(r1, DATA, r2)
+        ANDC(r2, 1, r3)     | r3=0 if even, r3=1 if odd
+        BT(r3, OSKIP, r31)
+        ADD(r4, r2, r4)
+OSKIP:  SUBC(r0, 1, r0)     | skip to here if odd
+        BT(r0, LOOP, r31)
+        ST(r4, DATA, r1)
+        LD(r1, DATA, r6)
+        ADD(r6, r4, r7)
+        HALT()
+
+
+DATA:   LONG(5)
+        LONG(3)
+        LONG(-5)
+        LONG(12)
+        LONG(-14)
+        LONG(1)
