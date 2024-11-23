@@ -6,14 +6,14 @@
 .include "labsubckts.jsim"
 
 *Instruction Memory, Program Counter and Data Memory
-Xmemory  vdd  0    0   pccur[8:2]    inst[31:0]
-+        vdd  0    0   mema[8:2]  memrd[31:0]
-+        0    clk2  wr  mema[8:2]  memwd[31:0]
-+ $memory width=32 nlocations=128 file="ourLab7#4.bin"
+Xmemory  vdd  0    0   pccur[10:2]    inst[31:0]
++        vdd  0    0   mema[10:2]  memrd[31:0]
++        0    clk2  wr  mema[10:2]  memwd[31:0]
++ $memory width=32 nlocations=512 file="lab8check.bin"
 
 *For memwd 
 Xmemwdjoin rd2_[31:0] memwd[31:0] join
-Xmemajoin f[8:2] mema[8:2] join
+Xmemajoin f[10:2] mema[10:2] join
 .connect 0 mema[1:0]
 
 
@@ -43,8 +43,12 @@ Xa2 wand wa0 wand2 nand2
 Xa3 wand2 werf werf_ and2
 
 *For branch target
+
+*Turn this to .connect instead of shift32 or get -4
 Xbt1 c15#17 c[14:0] 0#3 vdd 0#3 cshift[31:0] shift32
-Xbt2 0#23 pccur[8:0] 0#29 vdd 0#3 pcf[31:0] dc[1:0] add32
+
+
+Xbt2 0#21 pccur[10:0] 0#29 vdd 0#3 pcf[31:0] dc[1:0] add32
 Xbt3 pcf[31:0] cshift[31:0] 0 bt[31:0] dc[3:2] add32
 
 *For pcsel (mux)
@@ -100,7 +104,7 @@ Xresetc1 pcnext[31:0] clk2#32 pcupc[31:0] dreg
 Wreset reset nrz(0, 5, 50ns, 0ns, 0.001ns, 0.001ns)
 + 1 0
 
-Wreset2 reset2 nrz(0, 5, 25ns, 0ns, 0.001ns, 0.001ns)
+Wreset2 reset2 nrz(0, 5, 10ns, 0ns, 0.001ns, 0.001ns)
 + 1 0
 
 .subckt join S T
@@ -132,7 +136,7 @@ Xjinste inst[15:0]  c[15:0]     join
 .plot d(werf_)
 .plot d(wr)
 .plot sd(f[31:0])
-.plot hd(mema[8:0])
+.plot hd(mema[10:0])
 .plot hd(memrd[31:0])
 .plot hd(memwd[31:0])
 .plot d(wa[4:0])
